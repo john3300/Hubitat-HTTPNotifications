@@ -3,6 +3,7 @@
  *  Platform: Hubitat
  *  Modification History:
  *            Date        Who            What
+ *    v1.0.1  2024-04-05  Brian Johnson  Change the MSG separator characters from <> to ::
  *    v1.0.0  2020-08-16  Brian Johnson  Initial version
  *
  *  Copyright (c) 2020 Brian Johnson
@@ -42,7 +43,7 @@ metadata {
 
 	preferences {
 		input name: "httpUrl", type: "text", title: "Notification URL:", required: true
-		input name: "queryString", type: "text", title: "Query String:", description: "Use &lt;MSG&gt; as placeholder for message", required: false
+		input name: "queryString", type: "text", title: "Query String:", description: "Use ::MSG:: as placeholder for message", required: false
 	}
 }
 
@@ -55,7 +56,7 @@ def deviceNotification(message) {
 	]
 
 	if (queryString) {
-		queryString = queryString.replaceAll("<MSG>", URLEncoder.encode(message, "UTF-8"))
+		queryString = queryString.replaceAll("::MSG::", URLEncoder.encode(message, "UTF-8"))
 		postParams.put("queryString", queryString)
 	}
 
